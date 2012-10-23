@@ -21,9 +21,15 @@ namespace _8BitFighter
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        Player avatar = new Player();
+        Player enemy = new Player();
+        bool IsAvatarTurn = true;
+        
         public MainPage()
         {
             this.InitializeComponent();
+
+
         }
 
         /// <summary>
@@ -33,6 +39,38 @@ namespace _8BitFighter
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            updateDisplay();
+        }
+
+        private void updateDisplay()
+        {
+            PlayerHealthDisplay.Value = avatar.health;
+            EnemyHealthDisplay.Value = enemy.health;
+            if (IsAvatarTurn)
+            {
+                PlayerAttackControl.IsEnabled = true;
+                EnemyAttackControl.IsEnabled = false;
+            }
+            else
+            {
+                PlayerAttackControl.IsEnabled = false;
+                EnemyAttackControl.IsEnabled = true;
+            }
+
+        }
+
+        private void PlayerAttackControl_Click_1(object sender, RoutedEventArgs e)
+        {
+            enemy.Attacked(1);
+            IsAvatarTurn = !IsAvatarTurn;
+            updateDisplay();
+        }
+
+        private void EnemyAttackControl_Click_1(object sender, RoutedEventArgs e)
+        {
+            avatar.Attacked(1);
+            IsAvatarTurn = !IsAvatarTurn;
+            updateDisplay();
         }
     }
 }

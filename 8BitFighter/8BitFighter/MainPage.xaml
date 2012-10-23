@@ -8,6 +8,15 @@
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-
+        <StackPanel Width="500" HorizontalAlignment="Left" Margin="50">
+            <TextBlock Text="Me" Style="{StaticResource HeaderTextStyle}"  />
+            <ProgressBar x:Name="PlayerHealthDisplay" Width="500" Height="25" />
+            <TextBlock Text="Them" Style="{StaticResource HeaderTextStyle}"  />
+            <ProgressBar x:Name="EnemyHealthDisplay" Width="500" Height="25" />
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="PlayerAttackControl" Content="Player Attack" Width="250" Click="PlayerAttackControl_Click_1" />
+                <Button x:Name="EnemyAttackControl" Content="Enemy Attack" Width="250" Click="EnemyAttackControl_Click_1" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
