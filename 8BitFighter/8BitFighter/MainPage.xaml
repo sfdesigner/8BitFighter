@@ -17,6 +17,7 @@
                 <Button x:Name="PlayerAttackControl" Content="Player Attack" Width="250" Click="PlayerAttackControl_Click_1" />
                 <Button x:Name="EnemyAttackControl" Content="Enemy Attack" Width="250" Click="EnemyAttackControl_Click_1" />
             </StackPanel>
+            <ComboBox x:Name="WeaponSelect" Width="250" ItemsSource="{Binding}" SelectionChanged="WeaponSelect_SelectionChanged_1" />
         </StackPanel>
     </Grid>
 </Page>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.Foundation;
@@ -24,6 +25,8 @@ namespace _8BitFighter
         Player avatar = new Player();
         Player enemy = new Player();
         bool IsAvatarTurn = true;
+
+        Dictionary<string, int> WeaponList = new Dictionary<string, int>();
         
         public MainPage()
         {
@@ -39,7 +42,25 @@ namespace _8BitFighter
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SetupWeapons();
+            initializeDisplay();
             updateDisplay();
+        }
+
+        private void initializeDisplay()
+        {
+            List<string> Weapons = new List<string>();
+            foreach (KeyValuePair<string, int> weapon in WeaponList)
+            {
+                Weapons.Add(weapon.Key);
+            }
+            
+            WeaponSelect.DataContext = Weapons;
+
+            WeaponSelect.SelectedItem = "Fist";
+            int NewWeaponValue = WeaponList[WeaponSelect.SelectedItem.ToString()];
+            Debug.WriteLine("You are armed with a {0} with a value of {1}", WeaponSelect.SelectedItem, NewWeaponValue);
+            avatar.ChangeWeapon(NewWeaponValue);
         }
 
         private void updateDisplay()
@@ -61,7 +82,7 @@ namespace _8BitFighter
 
         private void PlayerAttackControl_Click_1(object sender, RoutedEventArgs e)
         {
-            enemy.Attacked(1);
+            enemy.Attacked(avatar.weapon);
             IsAvatarTurn = !IsAvatarTurn;
             updateDisplay();
         }
@@ -71,6 +92,33 @@ namespace _8BitFighter
             avatar.Attacked(1);
             IsAvatarTurn = !IsAvatarTurn;
             updateDisplay();
+        }
+
+        private void SetupWeapons()
+        {
+            WeaponList.Add("Fist",1);
+            WeaponList.Add("Dagger",2);
+            WeaponList.Add("Main Gauche", 3);
+            WeaponList.Add("Short Sword", 4);
+            WeaponList.Add("Mace", 5);
+            WeaponList.Add("Sword", 6);
+            WeaponList.Add("Broad Sword", 7);
+            WeaponList.Add("Halberd", 8);
+            WeaponList.Add("Axe", 4);
+            WeaponList.Add("Two-Handed Axe", 8);
+            WeaponList.Add("Magic Sword", 10);
+
+            foreach (KeyValuePair<string, int> weapon in WeaponList)
+            {
+                Debug.WriteLine("The {0} has an attack value of {1}", weapon.Key, weapon.Value);
+            }
+        }
+
+        private void WeaponSelect_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            int NewWeaponValue = WeaponList[WeaponSelect.SelectedItem.ToString()];
+            Debug.WriteLine("You selected {0} with a value of {1}", WeaponSelect.SelectedItem, NewWeaponValue);
+            avatar.ChangeWeapon(NewWeaponValue);
         }
     }
 }
